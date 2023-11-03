@@ -1,0 +1,19 @@
+stages:
+    - test
+
+# Tutorial: https://about.gitlab.com/blog/2022/11/01/how-to-automate-testing-for-a-react-application-with-gitlab/
+unit-test:
+    image: node:latest
+    stage: test
+    before_script:
+        - npm install
+    script:
+        - npm run test:ci
+    coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+    artifacts:
+        paths:
+            - coverage/
+        when: always
+        reports:
+            junit:
+            - junit.xml
